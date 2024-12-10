@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./Home.scss";
+import "./Home.css";
 import { BsFillArchiveFill, BsPeopleFill } from "react-icons/bs";
 import { FaMoneyBillAlt } from "react-icons/fa";
 import { MdOutlineBorderColor } from "react-icons/md";
@@ -147,6 +148,10 @@ const Home = (props) => {
   const handlePageClick = (event) => {
     setCurrentPage(+event.selected + 1);
   };
+
+  useEffect(()=>{
+    getDataOrder();
+  }, [currentPage]);
 
   return (
     <div className="home auto">

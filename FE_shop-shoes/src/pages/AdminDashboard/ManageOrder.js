@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Nav from "./Nav";
 import "./ManageOrder.scss";
+import "./ManageOrder.css";
 import { Table } from "react-bootstrap";
 import { FaMoneyBillAlt } from "react-icons/fa";
 import ReactPaginate from "react-paginate";
@@ -116,14 +117,14 @@ const ManageOrder = () => {
             <h1>{dataManage?.totalOrdersPending}</h1>
           </div>
 
-          <div className="order-search">
+          {/* <div className="order-search">
             Tìm kiếm:
             <input
               type="text"
               onChange={(event) => handleSearch(event)}
               placeholder="tìm kiếm"
             />
-          </div>
+          </div> */}
         </div>
         <div className="content-order">
           <div className="title-order">
