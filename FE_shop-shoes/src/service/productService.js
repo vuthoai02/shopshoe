@@ -124,6 +124,12 @@ const getDataManageAdmin = () => {
   });
 };
 
+const getProductBySearch = (search,page,limit) => {
+  return axios.get(`/api/v1/search?search=${search}&page=${page}&limit=${limit}`, {
+    withCredentials: true,
+  });
+}
+
 export {
   createProduct,
   getAllProduct,
@@ -143,4 +149,5 @@ export {
   removeallproductcart,
   getDataManageAdmin,
   deleteOrder,
+  getProductBySearch
 };

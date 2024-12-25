@@ -116,15 +116,6 @@ const ManageOrder = () => {
             </div>
             <h1>{dataManage?.totalOrdersPending}</h1>
           </div>
-
-          {/* <div className="order-search">
-            Tìm kiếm:
-            <input
-              type="text"
-              onChange={(event) => handleSearch(event)}
-              placeholder="tìm kiếm"
-            />
-          </div> */}
         </div>
         <div className="content-order">
           <div className="title-order">

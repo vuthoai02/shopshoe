@@ -9,7 +9,7 @@ import shoe01 from "../../assets/images/sieu-sale-4.4-cata-1140x500.png";
 import shoe02 from "../../assets/images/banner02.jpg";
 import shoe03 from "../../assets/images/banner03.jpg";
 import shoe04 from "../../assets/images/banner04.jpg";
-import { getAllProduct } from "../../service/productService";
+import { getAllProduct, getProductBySearch } from "../../service/productService";
 import { toast } from "react-toastify";
 import ItemProductCart from "../card/ItemProductCart";
 import { fetchAllSupplierNoLimit } from "../../service/userService";
@@ -61,6 +61,7 @@ const ProductPage = () => {
   const [supplierActive, setSupplierActive] = useState("");
   const [filterPrice, setFilterPrice] = useState([0, 0]);
   const [filterSize, setFilterSize] = useState([]);
+  const [search, setSearch] = useState("");
   const getAllProducts = async () => {
     let res = await getAllProduct(
       currentPage,
@@ -96,7 +97,9 @@ const ProductPage = () => {
   }, []);
 
   useEffect(() => {
-    getAllProducts();
+    if(search === ""){
+      getAllProducts();
+    }
   }, [currentPage, supplierActive, filterPrice, filterSize]);
 
   const handlePageClick = async (event) => {
@@ -115,7 +118,22 @@ const ProductPage = () => {
     }
   };
 
-  console.log(filterSize);
+  const handleSearchChange = (event) => {
+    setSearch(event.target.value);
+  };
+
+  const handleSearchProduct = async () => {
+    let res = await getProductBySearch(search, currentPage, currentLimit);
+    if (res && res.errCode === 0) {
+      setGetProduct(res.DT);
+      setTotalPages(res.totalPages);
+    } else {
+      toast.error(res.errMessage);
+    }
+  }
+
+  console.log("Get product: ", getProduct);
+
 
   return (
     <>
@@ -123,6 +141,15 @@ const ProductPage = () => {
       <div div className="product-page">
         <div className="page">
           <div className="page-left">
+            <div className="search">
+              <input
+                type="text"
+                onChange={(event) => handleSearchChange(event)}
+                placeholder="Tìm kiếm sản phẩm"
+                className="text"
+              />
+              <input type="submit" className="btn" value="Tìm kiếm" onClick={handleSearchProduct} />
+            </div>
             <div className="category">
               <h4>THƯƠNG HIỆU</h4>
               <ul>

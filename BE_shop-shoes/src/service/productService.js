@@ -206,8 +206,12 @@ const getAllProductService = async (page, limit, searchParams) => {
       }
 
       // Chuyển đổi minPrice và maxPrice thành số nguyên
-      const minPrice = searchParams?.minPrice ? parseInt(searchParams.minPrice, 10) : null;
-      const maxPrice = searchParams?.maxPrice ? parseInt(searchParams.maxPrice, 10) : null;
+      const minPrice = searchParams?.minPrice
+        ? parseInt(searchParams.minPrice, 10)
+        : null;
+      const maxPrice = searchParams?.maxPrice
+        ? parseInt(searchParams.maxPrice, 10)
+        : null;
 
       if (minPrice !== null) {
         whereClause.price = {
@@ -518,6 +522,45 @@ const getDataManageAdminService = async () => {
     };
   }
 };
+
+const getProductBySearchService = async (search, page, limit) => {
+  try {
+    if (page && limit) {
+      let offset = (page - 1) * limit;
+      const products = await db.Product.findAll({
+        where: {
+          productName: {
+            [Op.like]: `%${search}%`,
+          },
+        },
+        include: [
+          {
+            model: db.Image,
+            as: "images",
+            attributes: ["image"],
+          },
+          {
+            model: db.Inventory,
+            as: "inventories",
+            attributes: ["sizeId", "quantityInStock"],
+          },
+        ],
+      });
+      return {
+        errCode: 0,
+        errMessage: "OK",
+        DT: products,
+      };
+    }
+  } catch (e) {
+    console.log("error: ", e);
+    return {
+      errCode: -1,
+      errMessage: "Lỗi máy chủ",
+      DT: e,
+    };
+  }
+};
 module.exports = {
   createNewProduct: createNewProduct,
   updateProductService: updateProductService,
@@ -527,4 +570,5 @@ module.exports = {
   getProductSaleService: getProductSaleService,
   getProductBestSellerService: getProductBestSellerService,
   getDataManageAdminService: getDataManageAdminService,
+  getProductBySearchService: getProductBySearchService,
 };

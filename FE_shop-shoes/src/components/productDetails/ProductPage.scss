@@ -13,6 +13,19 @@
         .page-left{
             width: 250px;
 
+            .search{
+                display: flex;
+                margin-bottom: 10px;
+                padding: 0;
+                .btn{
+                    background-color: #4c4c4c;
+                }
+                .text{
+                    width: 140px;
+                    color: #000;
+                }
+            }
+
             .category{
                 h4{
                     text-align: center;
